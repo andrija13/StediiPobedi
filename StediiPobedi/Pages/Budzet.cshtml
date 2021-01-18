@@ -1,0 +1,141 @@
+﻿@page
+@model StediiPobedi.Pages.BudzetModel
+@{
+}
+
+<h4>Vas budzet</h4>
+<hr />
+<form method="post">
+
+    <button type="button" class="btn btn-outline-success" id="DodajProizvodbtn" data-toggle="modal" data-target="#dodajBudzet">Dodaj budzet</button>
+
+    @if (Model.Budzeti.Count > 0)
+    {
+        <table class="table table-hover">
+            <thead style="color: #8c8c8c;">
+            <th scope="col">Preostali iznos</th>
+            <th scope="col">Naziv/Opis</th>
+            <th scope="col">Iznos</th>
+            <th scope="col">Ukupni rashodi</th>
+            <th scope="col">Akcije</th>
+            </thead>
+            <tbody id="tbody">
+
+                @for (var i = 0; i < Model.Budzeti.Count; i++)
+                {
+                    var a = i + 1;
+                    var procenat = @Model.Budzeti[i].Procenat + '%';
+                    <tr scope="row">
+                        <td><div>@Model.Budzeti[i].PreostaliIznos din.</div><div class="progress"><div id="a_@a" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @procenat" aria-valuenow="parseInt(@Model.Budzeti[i].Procenat)" aria-valuemin="0" aria-valuemax="100"> @procenat</div></div></td>
+                        <td>@Model.Budzeti[i].Opis</td>
+                        <td>@Model.Budzeti[i].Iznos din.</td>
+                        <td>@Model.Budzeti[i].UkupniRashodi din.</td>
+                        <input type="text" id="aa_@a" class="form-control" asp-for="@Model.Budzeti[i].Id" hidden>
+                        <td>
+                            <button type="button" class="btn btn-outline-warning sacuvaj" data-toggle="modal" data-target="#a_@Model.Budzeti[i].Id"><ion-icon name="create-outline" style="vertical-align:-2px;"></ion-icon></button>
+                            <button type="submit" asp-route-idlok="@Model.Budzeti[i].Id" asp-page-handler="UkloniBudzet" class="btn btn-outline-danger sacuvaj"><ion-icon name="trash-outline" style="vertical-align:-2px;"></ion-icon></button>
+                        </td>
+                    </tr>
+
+                    <div class="modal fade" id="a_@Model.Budzeti[i].Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Izmeni budzet</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label asp-for="@Model.Budzeti[i].Opis">Unesite naziv/opis budzeta:</label>
+                                        <input class="form-control" asp-for="@Model.Budzeti[i].Opis" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label asp-for="@Model.Budzeti[i].Iznos">Unesite iznos budzeta:</label>
+                                        <input class="form-control" asp-for="@Model.Budzeti[i].Iznos" />
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Grupisite rashode za ovaj budzet:</label>
+                                        @for (var j = 0; j < @Model.Budzeti[i].Rashodi.Count; j++)
+                                        {
+                                            var r = "Budzeti_" + i + "__Rashodi_" + j + "__Selektovan";
+                                            <div class="lokacije">
+                                                <div class="checkbox">
+                                                    @Html.CheckBoxFor(m => m.Budzeti[i].Rashodi[j].Selektovan)
+                                                    <input asp-for="@Model.Budzeti[i].Rashodi[j].Id" hidden /><input asp-for="@Model.Budzeti[i].Rashodi[j].Tip" hidden /><input asp-for="@Model.Budzeti[i].Rashodi[j].Opis" hidden /><input asp-for="@Model.Budzeti[i].Rashodi[j].Iznos" hidden />
+                                                    <label for="@r">@Model.Budzeti[i].Rashodi[j].Tip : @Model.Budzeti[i].Rashodi[j].Opis : @Model.Budzeti[i].Rashodi[j].Iznos din.</label>
+                                                </div>
+                                            </div>
+                                        }
+
+                                        @for (var j = 0; j < @Model.Budzeti[i].DodatiRashodi.Count; j++)
+                                        {
+                                            var r = "Budzeti_" + i + "__DodatiRashodi_" + j + "__Selektovan";
+                                            <div class="lokacije">
+                                                <div class="checkbox">                                                    
+                                                        @Html.CheckBoxFor(n => n.Budzeti[i].DodatiRashodi[j].Selektovan)                                          
+                                                    <input id="@r" asp-for="@Model.Budzeti[i].DodatiRashodi[j].Id" hidden /><input asp-for="@Model.Budzeti[i].DodatiRashodi[j].Tip" hidden /><input asp-for="@Model.Budzeti[i].DodatiRashodi[j].Opis" hidden /><input asp-for="@Model.Budzeti[i].DodatiRashodi[j].Iznos" hidden />
+                                                    <label for="@r">@Model.Budzeti[i].DodatiRashodi[j].Tip : @Model.Budzeti[i].DodatiRashodi[j].Opis : @Model.Budzeti[i].DodatiRashodi[j].Iznos din.</label>
+                                                </div>
+                                            </div>
+                                            //}
+                                        }
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Poništi</button>
+                                    <button type="submit" asp-route-id="@Model.Budzeti[i].Id" asp-route-br="@i" asp-page-handler="IzmeniBudzet" class="btn btn-success">Izmeni budzet</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </tbody>
+        </table>
+    }
+
+
+    <!-- Modal box za dodavanje budzeta -->
+    <div class="modal fade" id="dodajBudzet" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj budzet</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label asp-for="@Model.Budzet.Opis">Unesite naziv/opis budzeta:</label>
+                        <input class="form-control" asp-for="@Model.Budzet.Opis" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.Budzet.Iznos">Unesite iznos budzeta:</label>
+                        <input class="form-control" asp-for="@Model.Budzet.Iznos" />
+                    </div>
+                    <div class="form-group">
+                        <label>Grupisite rashode za ovaj budzet:</label>
+                        @for (var i = 0; i < @Model.Rashodi.Count; i++)
+                        {
+                            var r = "Rashodi_" + i + "__Selektovan";
+                            <div class="lokacije">
+                                <div class="checkbox">
+                                    @Html.CheckBoxFor(m => m.Rashodi[i].Selektovan)
+                                    <input asp-for="@Model.Rashodi[i].Tip" hidden /><input asp-for="@Model.Rashodi[i].Opis" hidden /><input asp-for="@Model.Rashodi[i].Iznos" hidden />
+                                    <label for="@r">@Model.Rashodi[i].Tip : @Model.Rashodi[i].Opis : @Model.Rashodi[i].Iznos din.</label>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Poništi</button>
+                    <button type="submit" asp-page-handler="DodajBudzet" class="btn btn-success">Dodaj budzet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

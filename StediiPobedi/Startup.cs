@@ -16,6 +16,8 @@ using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using StediiPobedi.Areas.Identity.Data;
 using Aguacongas.Identity.Redis;
+using EasyCaching.Redis;
+using EasyCaching;
 
 namespace StediiPobedi
 {

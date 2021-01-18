@@ -1,0 +1,384 @@
+﻿@page
+@model StediiPobedi.Pages.PrihodiRashodiModel
+@{
+}
+
+<h4>Vas bilans stanja</h4>
+<hr />
+<form method="post">
+    <div class="row">
+        <div class="col-md-5">
+            <button onclick="dodajLokaciju()" type="button" class="btn btn-outline-success sacuvaj" value="CREATE" id="btnNoOfRec" style="margin: 5px 0 25px 0;">Dodaj prihod</button>
+            <label for="exampleFormControlInput1" hidden>Broj prihoda: </label>
+            <label for="exampleFormControlInput1" id="brLok" hidden>@Model.Prihodi.Count </label>
+            <input hidden id="broj" asp-for="@Model.Prihodi.Count" />
+            <br />
+            <div class="form-group">
+                <table>
+                    <thead style="color: #8c8c8c;">
+                    <th>Opis</th>
+                    <th>Iznos</th>
+                    </thead>
+                    <tbody id="tbody">
+                        @for (var i = 0; i < Model.Prihodi.Count; i++)
+                        {
+                            var a = i + 1;
+                            <tr>
+                                <td><input type="text" id="bb_@a" class="form-control labeleP" asp-for="@Model.Prihodi[i].Naziv" disabled></td>
+                                <td><input type="text" id="cc_@a" class="form-control iznosP" asp-for="@Model.Prihodi[i].Iznos" disabled></td>
+                                <input type="text" id="aa_@a" class="form-control" asp-for="@Model.Prihodi[i].Id" hidden>
+                                <td> <button type="submit" asp-route-id="@Model.Prihodi[i].Id" asp-page-handler="UkloniPrihod" class="btn btn-outline-danger sacuvaj"><ion-icon name="trash-outline" style="vertical-align:-2px;"></ion-icon></button></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-success sacuvaj dugme" id="Sacuvajbtn" asp-page-handler="Sacuvaj">Sacuvaj prihode</button>
+        </div>
+        <div class="col-md-2"></div>
+        <div class="col-md-5">
+            <button onclick="dodajLokaciju1()" type="button" class="btn btn-outline-success sacuvaj" value="CREATE" id="btnNoOfRec1" style="margin: 5px 0 25px 0;">Dodaj rashod</button>
+            <label for="exampleFormControlInput1" hidden>Broj rashoda: </label>
+            <label for="exampleFormControlInput1" id="brLok1" hidden>@Model.Rashodi.Count </label>
+            <input hidden id="broj1" asp-for="@Model.Rashodi.Count" />
+            <br />
+            <div class="form-group">
+                <table>
+                    <thead style="color: #8c8c8c;">
+                    <th>Tip</th>
+                    <th>Opis</th>
+                    <th>Iznos</th>
+                    </thead>
+                    <tbody id="tbody1">
+                        @for (var i = 0; i < Model.Rashodi.Count; i++)
+                        {
+                            var a = i + 1;
+                            <tr>
+                                <td><input type="text" id="d_@a" class="form-control labeleR" asp-for="@Model.Rashodi[i].Tip" disabled></td>
+                                <td><input type="text" id="b_@a" class="form-control" asp-for="@Model.Rashodi[i].Opis" disabled></td>
+                                <td><input type="text" id="c_@a" class="form-control iznosR" asp-for="@Model.Rashodi[i].Iznos" disabled></td>
+                                <input type="text" id="a_@a" class="form-control" asp-for="@Model.Rashodi[i].Id" hidden>
+                                <td> <button type="submit" asp-route-id="@Model.Rashodi[i].Id" asp-page-handler="UkloniRashod" class="btn btn-outline-danger sacuvaj"><ion-icon name="trash-outline" style="vertical-align:-2px;"></ion-icon></button></td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit" class="btn btn-success sacuvaj dugme" id="SacuvajRashodebtn" asp-page-handler="SacuvajRashode">Sacuvaj rashode</button>
+        </div>
+    </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <canvas id="myPrihod" width="20" height="20"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="myRashod" width="20" height="20"></canvas>
+        </div>
+        <div class="col-md-4">
+            <canvas id="myBilans" width="20" height="20"></canvas>
+        </div>
+    </div>
+</form>
+
+
+
+<script src="~/temp/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    var choices = ["Racun - Struja", "Racun - Voda", "Racun - Telefon", "Racun - Ostalo", "Troskovi za prevoz",
+        "Troskovi putovanja", "Ostali troskovi", "Obuca/Odeca", "Hrana", "Hobi", "Auto", "Kupovina"];
+
+    function addInput(divName, idDiv) {
+        var newDiv = document.createElement('select');
+        newDiv.className = "form-control novi";
+
+        for (i = 0; i < choices.length; i = i + 1) {
+            var option = document.createElement('option');
+            option.value = choices[i];
+            option.text = choices[i];
+            newDiv.appendChild(option);
+        }
+        document.getElementById(divName).appendChild(newDiv);
+        $('#' + divName).children().attr('id', "d_" + idDiv);
+        $('#' + divName).children().attr('name', 'IzabraniRashodi');
+    }
+
+
+
+    function dodajLokaciju() {
+        var brLok = document.getElementById('brLok').innerHTML;
+        brLok++;
+        document.getElementById('brLok').innerHTML = brLok;
+
+        var broj = document.getElementById('broj');
+        broj.value = brLok;
+
+        var tbl = "";
+        tbl += "<tr>" +
+            "<td>" +
+            "<input type='text' id='bb_" + brLok + "' class=" + " form-control" + " name='NoviPrihodi' />" +
+            "</td>" +
+            "<td>" +
+            "<input type='text' id='cc_" + brLok + "' class=" + " form-control" + " name='NoviIznosi'/>" +
+            "</td>" +
+            " <td>" +
+            " <button type='button' onclick='obrisi(" + brLok + ",this)' class='btn btn-outline-danger' ><ion-icon name='trash-outline' style='vertical-align:-2px;'></ion-icon></button>" +
+            "</td>" +
+            "</tr>";
+        
+        $('#tbody').append(tbl);
+
+    }
+
+    function obrisi(idLok, dugme) {
+        var brLok = document.getElementById('brLok').innerHTML;
+        brLok--;
+        document.getElementById('brLok').innerHTML = brLok;
+
+        var broj = document.getElementById('broj');
+        broj.value = brLok;
+
+        var grad = document.getElementById("bb_" + idLok);
+        var adresa = document.getElementById("cc_" + idLok);
+
+        grad.remove();
+        adresa.remove();
+        dugme.remove();
+    }
+
+    function dodajLokaciju1() {
+        var brLok = document.getElementById('brLok1').innerHTML;
+        brLok++;
+        document.getElementById('brLok1').innerHTML = brLok;
+
+        var broj = document.getElementById('broj1');
+        broj.value = brLok;
+
+        var tbl = "";
+        tbl += "<tr>" +
+            "<td id='dynamicinput_" + brLok+"' > " +
+            "</td>"+
+            "<td>" +
+            "<input type='text' id='b_" + brLok + "' class=" + " form-control" + " name='NoviRashodi' />" +
+            "</td>" +
+            "<td>" +
+            "<input type='text' id='c_" + brLok + "' class=" + " form-control" + " name='NoviRashodiIznos'/>" +
+            "</td>" +
+            " <td>" +
+            " <button type='button' onclick='obrisi1(" + brLok + ",this)' class='btn btn-outline-danger' ><ion-icon name='trash-outline' style='vertical-align:-2px;'></ion-icon></button>" +
+            "</td>" +
+            "</tr>";
+        $('#tbody1').append(tbl);
+        var divtemp = "dynamicinput_" + brLok
+        addInput(divtemp, brLok);
+    }
+
+    function obrisi1(idLok, dugme) {
+        var brLok = document.getElementById('brLok1').innerHTML;
+        brLok--;
+        document.getElementById('brLok1').innerHTML = brLok;
+
+        var broj = document.getElementById('broj1');
+        broj.value = brLok;
+
+        var td = document.getElementById("dynamicinput_" + idLok);
+        var tip = document.getElementById("d_" + idLok);
+        var opis = document.getElementById("b_" + idLok);
+        var iznos = document.getElementById("c_" + idLok);
+
+        td.remove();
+        tip.remove()
+        opis.remove();
+        iznos.remove();
+        dugme.remove();
+    }
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+
+    Chart.pluginService.register({
+        beforeDraw: function (chart) {
+            if (chart.config.options.elements.center) {
+                // Get ctx from string
+                var ctx = chart.chart.ctx;
+
+                // Get options from the center object in options
+                var centerConfig = chart.config.options.elements.center;
+                var fontStyle = centerConfig.fontStyle || 'Arial';
+                var txt = centerConfig.text;
+                var color = centerConfig.color || '#000';
+                var maxFontSize = centerConfig.maxFontSize || 75;
+                var sidePadding = centerConfig.sidePadding || 20;
+                var sidePaddingCalculated = (sidePadding / 100) * (chart.innerRadius * 2)
+                // Start with a base font of 30px
+                ctx.font = "30px " + fontStyle;
+
+                // Get the width of the string and also the width of the element minus 10 to give it 5px side padding
+                var stringWidth = ctx.measureText(txt).width;
+                var elementWidth = (chart.innerRadius * 2) - sidePaddingCalculated;
+
+                // Find out how much the font can grow in width.
+                var widthRatio = elementWidth / stringWidth;
+                var newFontSize = Math.floor(30 * widthRatio);
+                var elementHeight = (chart.innerRadius * 2);
+
+                // Pick a new font size so it will not be larger than the height of label.
+                var fontSizeToUse = Math.min(newFontSize, elementHeight, maxFontSize);
+                var minFontSize = centerConfig.minFontSize;
+                var lineHeight = centerConfig.lineHeight || 25;
+                var wrapText = false;
+
+                if (minFontSize === undefined) {
+                    minFontSize = 20;
+                }
+
+                if (minFontSize && fontSizeToUse < minFontSize) {
+                    fontSizeToUse = minFontSize;
+                    wrapText = true;
+                }
+
+                // Set font settings to draw it correctly.
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                var centerX = ((chart.chartArea.left + chart.chartArea.right) / 2);
+                var centerY = ((chart.chartArea.top + chart.chartArea.bottom) / 2);
+                ctx.font = fontSizeToUse + "px " + fontStyle;
+                ctx.fillStyle = color;
+
+                if (!wrapText) {
+                    ctx.fillText(txt, centerX, centerY);
+                    return;
+                }
+
+                var words = txt.split(' ');
+                var line = '';
+                var lines = [];
+
+                // Break words up into multiple lines if necessary
+                for (var n = 0; n < words.length; n++) {
+                    var testLine = line + words[n] + ' ';
+                    var metrics = ctx.measureText(testLine);
+                    var testWidth = metrics.width;
+                    if (testWidth > elementWidth && n > 0) {
+                        lines.push(line);
+                        line = words[n] + ' ';
+                    } else {
+                        line = testLine;
+                    }
+                }
+
+                // Move the center up depending on line height and number of lines
+                centerY -= (lines.length / 2) * lineHeight;
+
+                for (var n = 0; n < lines.length; n++) {
+                    ctx.fillText(lines[n], centerX, centerY);
+                    centerY += lineHeight;
+                }
+                //Draw text in center
+                ctx.fillText(line, centerX, centerY);
+            }
+        }
+    });
+
+    var arr = [];
+    var arrIznos = [];
+    var arrRas = [];
+    var arrRasIznos = [];
+    $('.labeleP').each(function (item) {
+        arr.push($(this).val());
+    });
+    $('.iznosP').each(function (item) {
+        arrIznos.push($(this).val());
+    });
+
+    $('.labeleR').each(function (item) {
+        arrRas.push($(this).val());
+    });
+    $('.iznosR').each(function (item) {
+        arrRasIznos.push($(this).val());
+    });
+
+    var prihod = arrIznos.reduce(function (acc, val) { return parseInt(acc) + parseInt(val); }, 0);
+    var rashod = arrRasIznos.reduce(function (acc, val) { return parseInt(acc) + parseInt(val); }, 0);
+
+    var ctx = document.getElementById('myPrihod').getContext('2d');
+    var chart = new Chart(document.getElementById("myPrihod"), {
+        type: 'doughnut',
+        data: {
+            labels: arr,
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: arrIznos
+            }]
+        },
+        options: {
+            elements: {
+                center: {
+                    text: 'Prihodi ' + prihod + 'din',
+                    color: '#343a40', // Default is #000000
+                    fontStyle: 'Arial', // Default is Arial
+                    sidePadding: 20, // Default is 20 (as a percentage)
+                    minFontSize: 25, // Default is 20 (in px), set to false and text will not wrap.
+                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
+                }
+            }
+        }
+    });
+
+
+    var ctx = document.getElementById('myRashod').getContext('2d');
+    var chart = new Chart(document.getElementById("myRashod"), {
+        type: 'doughnut',
+        data: {
+            labels: arrRas,
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: arrRasIznos
+            }]
+        },
+        options: {
+            elements: {
+                center: {
+                    text: 'Rashodi ' + rashod + 'din',
+                    color: '#343a40', // Default is #000000
+                    fontStyle: 'Arial', // Default is Arial
+                    sidePadding: 20, // Default is 20 (as a percentage)
+                    minFontSize: 25, // Default is 20 (in px), set to false and text will not wrap.
+                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
+                }
+            }
+        }
+    });
+
+    var ctx = document.getElementById('myBilans').getContext('2d');
+    var chart = new Chart(document.getElementById("myBilans"), {
+        type: 'doughnut',
+        data: {
+            labels: ["Prihodi", "Rashodi"],
+            datasets: [{
+                label: "Population (millions)",
+                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                data: [prihod , rashod]
+            }]
+        },
+        options: {
+            elements: {
+                center: {
+                    text: 'Bilans stanja '+(prihod - rashod) + 'din',
+                    color: '#343a40', // Default is #000000
+                    fontStyle: 'Arial', // Default is Arial
+                    sidePadding: 20, // Default is 20 (as a percentage)
+                    minFontSize: 25, // Default is 20 (in px), set to false and text will not wrap.
+                    lineHeight: 25 // Default is 25 (in px), used for when text wraps
+                }
+            }
+        }
+    });
+
+</script>
+
