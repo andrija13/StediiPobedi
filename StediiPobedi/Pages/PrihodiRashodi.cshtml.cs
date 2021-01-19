@@ -82,9 +82,10 @@ namespace StediiPobedi.Pages
             var korisnik = await _userManager.GetUserAsync(User);
             int id = -1;
             List<string> keys = _redis.GetHashKeys("{" + korisnik.UserName + "}-prihodi");
-            if (keys.Count != 0)
+            for (int i = 0; i < keys.Count; i++)
             {
-                id = Int32.Parse(keys[keys.Count - 1]);
+                if (Int32.Parse(keys[i]) > id)
+                    id = Int32.Parse(keys[i]);
             }
 
             Dictionary<string, string> hmset = new Dictionary<string, string>();
@@ -117,9 +118,11 @@ namespace StediiPobedi.Pages
             var korisnik = await _userManager.GetUserAsync(User);
             int id = -1;
             List<string> keys = _redis.GetHashKeys("{" + korisnik.UserName + "}-rashodi");
-            if (keys.Count != 0)
+            List<int> intKeys = new List<int>();
+            for(int i = 0;i<keys.Count;i++)
             {
-                id = Int32.Parse(keys[keys.Count - 1]);
+                if(Int32.Parse(keys[i]) > id)
+                    id = Int32.Parse(keys[i]);
             }
 
             Dictionary<string, string> hmset = new Dictionary<string, string>();
