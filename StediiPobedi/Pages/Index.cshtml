@@ -1,24 +1,214 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.AspNetCore.Identity
+@using StediiPobedi.Areas.Identity.Data; 
+@inject SignInManager<Korisnik> SignInManager
+@inject UserManager<Korisnik> UserManager
 @{
     ViewData["Title"] = "Home page";
 }
+@{
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - StediiPobedi</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/HomePage.css">
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
-<div class="form-group">
-    <div>Koliko možete uštedeti za jednu godinu, ako štedite po malo svakog dana</div>
-        <div class="slidecontainer">
-            <p class="value">Dnevno da stedim: <span class="per-day">250</span> RSD</p>
-            <div class="calculator-inner">
-                <span>10 RSD</span>
-                <input type="range" min="10" max="500" value="250" class="slider" id="myRange" name="range"><span>500 RSD</span>
-
+</head>
+<body>
+    <div class="container-fluid hero">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-page="/Index">Stedi i Pobedi</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Moj Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="manage" class="nav-link" asp-page="/PrihodiRashodi">Bilans Stanja</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="manage" class="nav-link" asp-page="/Budzet" title="Manage">Pregled Budzeta</a>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="navbar-nav">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn logout login">Odjavi se</button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link btn login" asp-area="Identity" asp-page="/Account/Login">Prijavi se</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn register" asp-area="Identity" asp-page="/Account/Register">Napravi nalog</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <div class="custom-shape-divider-bottom-1711072348">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M602.45,3.86h0S572.9,116.24,281.94,120H923C632,116.24,602.45,3.86,602.45,3.86Z" class="shape-fill"></path>
+                </svg>
             </div>
-            <p class="max-value"><span class="savings-txt">Uštedeo bih: </span><span class="per-year">91.250</span> RSD</p>
+            <div class="custom-shape-divider-bottom-1611072348">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M602.45,3.86h0S572.9,116.24,281.94,120H923C632,116.24,602.45,3.86,602.45,3.86Z" class="shape-fill"></path>
+                </svg>
+            </div>
+            <img class="circle1" src="~/images/circle.png" alt="Particle">
+            <img class="circle2" src="~/images/circle2.png" alt="Particle">
+            <img class="circle3" src="~/images/circle.png" alt="Particle">
+        <div class="container">
+            <div class="row hero-content">
+                <h1>Upravljajte vasim finansijama</h1>
+                <p>Ustedite sto vise svakog dana osim djurdjevdana</p>
+                <a href="#sadrzaj" class="btn">Saznaj vise</a>
+                <img src="~/images/laptop.png" alt="Laptop">
+            </div>
         </div>
-</div>
+    </div>
 
+    <div class="container">
+        <div id="sadrzaj" class="row sadrzaj">
+            <hr>
+            <div class="col-12">
+                <h1>Stednja na godisnjem nivou</h1>
+                <p>Koliko možete uštedeti za jednu godinu, ako štedite po malo svakog dana</p>
+            </div>
+            <div class="col-12">
+                <div class="form-group">
+                    <div class="slidecontainer">
+                        <p class="value">Dnevno da stedim: <span class="per-day">250</span> RSD</p>
+                        <div class="calculator-inner">
+                            <span class="slider-price">10 RSD</span>
+                            <input type="range" min="10" max="500" value="250" class="slider" id="myRange" name="range">
+                            <span class="slider-price">500 RSD</span>
+                        </div>
+                        <p class="max-value"><span class="savings-txt">Uštedeo bih: </span><span class="per-year">91.250</span> RSD</p>
+                    </div>
+                </div>
+            </div>
+            <hr>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="slideshow-container">
+                    <div class="mySlides fade">
+                        <div class="numbertext">1</div>
+                        <img src="~/images/slider1.png">
+                        <div class="text">Jasno odredite za sta stedite. Vasa stednja moze biti namenjena za sta god zelite, 
+                            ali morate precizirati stsa stednjom zelite da postignete.</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">2</div>
+                        <img src="~/images/slider2.png">
+                        <div class="text">Kada znate za sta stedite, odnosno koliko novca vam treba, odredite i vremenski period u kome treba da se realizuje vas cilj.</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">3</div>
+                        <img src="~/images/slider3.png">
+                        <div class="text">Odredite mesecne iznose koje morate odvajati za stednju da biste dostigli planirani iznos u predvidjenom roku.</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">4</div>
+                        <img src="~/images/slider4.png">
+                        <div class="text">Pronadjite odgovarajuci model stednje, u zavisnosti od potrebnog iznosa, perioda i zivotnih navika.</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">5</div>
+                        <img src="~/images/slider5.png">
+                        <div class="text">Budite uporni i ne odustajte lako. Mozda ce u pocetku delovati nemoguce, ali vremenom ce stednja postati lepa navika koja ce vam obezbediti ugodniji 
+                            i bezbrizniji zivot.</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">6</div>
+                        <img src="~/images/slider6.png">
+                        <div class="text">Da li ste znali: ...da mozete optimizovati potrosnju elektricne energije i time uticati ne samo na novcanik, vec i na zivotnu sredinu?
+                            Ugasite svetlo u prostoriji u kojoj ne boravite, koristite LED sijalice, ves masinu ukljucite nocu...</div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">7</div>
+                        <img src="~/images/slider7.png">
+                        <div class="text">Da li ste znali: 
+                            …da možete da uštedite dok kupujete? 
+                            Pre nego što pođete u kupovinu uporedite cene artikala u više prodavnica. 
+                            Tako možete uštedeti i do 10%.
+                        </div>
+                    </div>
+                    <div class="mySlides fade">
+                        <div class="numbertext">8</div>
+                        <img src="~/images/slider8.png">
+                        <div class="text">Da li ste znali:
+                            ...da možete uštedeti više od 5000 dinara mesečno ako ručak ponesete od kuće umesto da kupujete tokom pauze. 
+                            Dodatna korist je što znate kako je spremljeno.</div>
+                    </div>
+                    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="footer text-center text-lg-start">
+        <div class="text-center text-light p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+            &copy 2021 Copyright:
+            <a class="text-light" asp-area="" asp-page="/Index">Stedi i Pobedi</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+    <script src="~/temp/ersteznali.min.js"></script>
+
+    <script>
+    var slideIndex = 1;
+    showSlides(slideIndex);
+    function plusSlides(n) {
+    showSlides(slideIndex += n);
+    }
+    function currentSlide(n) {
+    showSlides(slideIndex = n);
+    }
+    function showSlides(n) {
+    var i;
+    var slides = document.getElementsByClassName("mySlides");
+    if (n > slides.length) {slideIndex = 1}    
+    if (n < 1) {slideIndex = slides.length}
+    for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";  
+    }
+    slides[slideIndex-1].style.display = "block";  
+    }
+    </script>
+
+</body>
+</html>

@@ -2,12 +2,15 @@
 @model StediiPobedi.Pages.BudzetModel
 @{
 }
+<link rel="stylesheet" href="~/css/Budzet.css">
 
-<h4>Vas budzet</h4>
-<hr />
+<h2 class="naslov">Pregled budzeta</h2>
 <form method="post">
-
-    <button type="button" class="btn btn-outline-success" id="DodajProizvodbtn" data-toggle="modal" data-target="#dodajBudzet">Dodaj budzet</button>
+    <div class="col-12 d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-success dodaj d-flex justify-content-center" id="DodajProizvodbtn" data-toggle="modal" data-target="#dodajBudzet">
+            <ion-icon name="add-outline" style="font-size: 22px; vertical-align: -3px;"></ion-icon>
+        </button>
+    </div>
 
     @if (Model.Budzeti.Count > 0)
     {
@@ -25,7 +28,7 @@
                 {
                     var a = i + 1;
                     var procenat = @Model.Budzeti[i].Procenat + '%';
-                    <tr scope="row">
+                    <tr class="tr" scope="row">
                         <td><div>@Model.Budzeti[i].PreostaliIznos din.</div><div class="progress"><div id="a_@a" class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: @procenat" aria-valuenow="parseInt(@Model.Budzeti[i].Procenat)" aria-valuemin="0" aria-valuemax="100"> @procenat</div></div></td>
                         <td>@Model.Budzeti[i].Opis</td>
                         <td>@Model.Budzeti[i].Iznos din.</td>
@@ -36,7 +39,6 @@
                             <button type="submit" asp-route-idlok="@Model.Budzeti[i].Id" asp-page-handler="UkloniBudzet" class="btn btn-outline-danger sacuvaj"><ion-icon name="trash-outline" style="vertical-align:-2px;"></ion-icon></button>
                         </td>
                     </tr>
-
                     <div class="modal fade" id="a_@Model.Budzeti[i].Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">

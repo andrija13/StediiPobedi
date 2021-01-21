@@ -2,13 +2,14 @@
 @model StediiPobedi.Pages.PrihodiRashodiModel
 @{
 }
+<link rel="stylesheet" href="~/css/PrihodiRashodi.css">
 
-<h4>Vas bilans stanja</h4>
-<hr />
+
 <form method="post">
+    <h2 class="naslov">Vas bilans stanja</h2>
     <div class="row">
         <div class="col-md-5">
-            <button onclick="dodajLokaciju()" type="button" class="btn btn-outline-success sacuvaj" value="CREATE" id="btnNoOfRec" style="margin: 5px 0 25px 0;">Dodaj prihod</button>
+            <button onclick="dodajLokaciju()" type="button" class="btn sacuvaj dodaj" value="CREATE" id="btnNoOfRec">Dodaj prihod <ion-icon name="add-circle-outline" style="font-size: 16px; vertical-align: -2px;"></ion-icon></button>
             <label for="exampleFormControlInput1" hidden>Broj prihoda: </label>
             <label for="exampleFormControlInput1" id="brLok" hidden>@Model.Prihodi.Count </label>
             <input hidden id="broj" asp-for="@Model.Prihodi.Count" />
@@ -17,7 +18,7 @@
                 <table>
                     <thead style="color: #8c8c8c;">
                     <th>Opis</th>
-                    <th>Iznos</th>
+                    <th>Iznos(din.)</th>
                     </thead>
                     <tbody id="tbody">
                         @for (var i = 0; i < Model.Prihodi.Count; i++)
@@ -34,11 +35,15 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-success sacuvaj dugme" id="Sacuvajbtn" asp-page-handler="Sacuvaj">Sacuvaj prihode</button>
+            <button type="submit" class="btn btn-outline-success sacuvaj dugme" id="Sacuvajbtn" asp-page-handler="Sacuvaj">Sacuvaj prihode</button>
         </div>
-        <div class="col-md-2"></div>
+        <div class="col-md-2">
+            <div class="vertical-line"></div>
+        </div>
         <div class="col-md-5">
-            <button onclick="dodajLokaciju1()" type="button" class="btn btn-outline-success sacuvaj" value="CREATE" id="btnNoOfRec1" style="margin: 5px 0 25px 0;">Dodaj rashod</button>
+            <button onclick="dodajLokaciju1()" type="button" class="btn sacuvaj dodaj" value="CREATE" id="btnNoOfRec1">Dodaj rashod
+                <ion-icon name="add-circle-outline" style="font-size: 16px; vertical-align: -2px;"></ion-icon>
+            </button>
             <label for="exampleFormControlInput1" hidden>Broj rashoda: </label>
             <label for="exampleFormControlInput1" id="brLok1" hidden>@Model.Rashodi.Count </label>
             <input hidden id="broj1" asp-for="@Model.Rashodi.Count" />
@@ -48,7 +53,7 @@
                     <thead style="color: #8c8c8c;">
                     <th>Tip</th>
                     <th>Opis</th>
-                    <th>Iznos</th>
+                    <th>Iznos(din.)</th>
                     </thead>
                     <tbody id="tbody1">
                         @for (var i = 0; i < Model.Rashodi.Count; i++)
@@ -66,11 +71,10 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-success sacuvaj dugme" id="SacuvajRashodebtn" asp-page-handler="SacuvajRashode">Sacuvaj rashode</button>
+            <button type="submit" class="btn btn-outline-success sacuvaj dugme" id="SacuvajRashodebtn" asp-page-handler="SacuvajRashode">Sacuvaj rashode</button>
         </div>
     </div>
-    </div>
-    <div class="row">
+    <div class="row display">
         <div class="col-md-4">
             <canvas id="myPrihod" width="20" height="20"></canvas>
         </div>
@@ -311,7 +315,7 @@
             labels: arr,
             datasets: [{
                 label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                backgroundColor: ["#5c52f5", "#876be0", "#3cba9f", "#f89060", "#ff6276"],
                 data: arrIznos
             }]
         },
@@ -337,7 +341,7 @@
             labels: arrRas,
             datasets: [{
                 label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9", "#c45850"],
+                backgroundColor: ["#5c52f5", "#876be0", "#3cba9f", "#f89060", "#ff6276"],
                 data: arrRasIznos
             }]
         },
@@ -362,7 +366,7 @@
             labels: ["Prihodi", "Rashodi"],
             datasets: [{
                 label: "Population (millions)",
-                backgroundColor: ["#3e95cd", "#8e5ea2"],
+                backgroundColor: ["#5c52f5", "#ff6276"],
                 data: [prihod , rashod]
             }]
         },

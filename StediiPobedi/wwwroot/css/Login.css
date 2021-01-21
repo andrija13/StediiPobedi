@@ -1,0 +1,191 @@
+﻿.okvir {
+    padding: 10px;
+}
+
+.left-side {
+    height: 85vh;
+    /* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#5c52f5+0,876be0+100 */
+    background: #5c52f5; /* Old browsers */
+    background: -moz-linear-gradient(45deg, #5c52f5 0%, #876be0 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(45deg, #5c52f5 0%,#876be0 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(45deg, #5c52f5 0%,#876be0 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c52f5', endColorstr='#876be0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    border-radius: 15px 0 0 15px;
+    color: white;
+    font-family: 'Raleway';
+}
+
+    .left-side h1 {
+        font-weight: 600;
+        font-size: 56px;
+        padding-top: 150px;
+        padding-left: 100px;
+    }
+
+    .left-side ul {
+        padding-left: 150px;
+        list-style-type: none;
+    }
+
+        .left-side ul li {
+            padding-bottom: 10px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+            .left-side ul li:hover {
+                transform: translateX(20px);
+            }
+
+    .left-side .btn {
+        color: white;
+        font-size: 18px;
+        background: rgba(255, 255, 255, 0.13);
+        border-radius: 100%;
+        padding: 10px;
+        margin-right: 10px;
+    }
+
+.circle {
+    position: absolute;
+    opacity: 0.15;
+    top: -100px;
+    right: -100px;
+    width: 350px;
+}
+
+.circle2 {
+    position: absolute;
+    opacity: 0.15;
+    bottom: 200px;
+    left: 300px;
+    width: 200px;
+}
+
+.circle3 {
+    position: absolute;
+    opacity: 0.15;
+    top: -200px;
+    left: -200px;
+    width: 400px;
+}
+
+.right-side {
+    background: #f6f6fd;
+    border-radius: 0 15px 15px 0;
+    padding: 120px 80px 80px 80px;
+}
+
+    .right-side h2 {
+        font-family: 'Poppins';
+        font-weight: 600;
+    }
+
+    .right-side label {
+        font-family: 'Raleway';
+        font-weight: 600;
+        color: rgb(206, 206, 206);
+    }
+
+    .right-side input {
+        font-family: 'Poppins';
+        font-weight: 500;
+        border: none;
+        padding: 20px 15px;
+    }
+
+    .right-side .btn {
+        margin-top: 15px;
+        font-family: 'Raleway';
+        background: #756cf7;
+        color: white;
+        border-radius: 10px;
+    }
+
+        .right-side .btn:hover {
+            background: none;
+            border: 2px solid #756cf7;
+            color: #756cf7;
+        }
+
+.text-link {
+    text-align: right;
+    font-family: 'Poppins';
+}
+
+    .text-link a {
+        display: inline-block;
+        text-decoration: none;
+        transition: 0.2s;
+    }
+
+        .text-link a:hover {
+            color: #756cf7;
+            transform: scale(0.9);
+        }
+
+input[type=text]:focus,
+input[type=password]:focus,
+input[type=email]:focus,
+input[type=number]:focus,
+[type=text].form-control:focus,
+[type=password].form-control:focus,
+[type=email].form-control:focus,
+[type=tel].form-control:focus,
+[contenteditable].form-control:focus {
+    box-shadow: inset 0 -2px 0 #876be0;
+}
+
+
+@media only screen and (max-width: 996px) {
+    .edit {
+        text-align: center;
+    }
+
+    .circle {
+        display: none;
+    }
+
+    .circle2 {
+        left: 45%;
+        width: 250px;
+    }
+
+    .left-side {
+        border-radius: 15px 15px 0 0;
+    }
+
+        .left-side h1 {
+            font-weight: 600;
+            font-size: 56px;
+            padding-top: 100px;
+            padding-left: 0;
+        }
+
+        .left-side ul {
+            padding-left: 0;
+        }
+
+            .left-side ul li:hover {
+                transform: translateX(20px);
+            }
+
+        .left-side .btn {
+            color: white;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.13);
+            border-radius: 100%;
+            padding: 10px;
+        }
+
+    .right-side {
+        border-radius: 0 0 15px 15px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .circle2 {
+        display: none;
+    }
+}

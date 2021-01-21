@@ -1,0 +1,46 @@
+.naslov{
+    font-family: 'Poppins';
+    text-align: center;
+    color: rgb(37, 36, 36);
+    text-transform: capitalize;
+    padding: 50px 0 25px 0;
+}
+.col-md-5{
+    -webkit-box-shadow: 0 0 15px 1px rgba(0,0,0,0.15);
+    box-shadow: 0 0 15px 1px rgba(0,0,0,0.15);
+    border-radius: 5px;
+    padding: 30px 30px;
+    text-align: center;
+    font-family: 'Poppins';
+}
+.col-md-5 .dodaj{
+    color: #ff6276 !important;
+    padding: 7px 25px 7px 25px !important;
+    border-radius: 50px;
+    font-weight: 500;
+    border: 1px solid #ff6276;
+    transition: 0.2s;
+    margin-bottom: 15px;
+}
+.col-md-5 .dodaj:hover{
+    background: #ff6276;
+    color: white !important;
+}
+.dugme{
+    margin-top: 15px;
+    border-radius: 50px;
+    padding: 7px 25px 7px 25px !important;
+}
+.col-md-2{
+    display: grid;
+    place-items: center;
+}
+.vertical-line{
+    width: 5px;
+    height: 80%;
+    background: #5c52f5;
+    border-radius: 50px;
+}
+.display{
+    padding: 75px 0;
+}

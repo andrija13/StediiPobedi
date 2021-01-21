@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@using StediiPobedi.Areas.Identity.Data; 
+@inject SignInManager<Korisnik> SignInManager
+@inject UserManager<Korisnik> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -6,40 +11,66 @@
     <title>@ViewData["Title"] - StediiPobedi</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://unpkg.com/ionicons@5.2.3/dist/ionicons.js"></script>
 
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">StediiPobedi</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                    <partial name="_LoginPartial" />
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-page="/Index">Stedi i Pobedi</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Moj Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="manage" class="nav-link" asp-page="/PrihodiRashodi">Bilans Stanja</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a id="manage" class="nav-link" asp-page="/Budzet" title="Manage">Pregled Budzeta</a>
+                                </li>
+                            }
+                        </ul>
+                        <ul class="navbar-nav">
+                            @if (SignInManager.IsSignedIn(User))
+                            {
+                                <li class="nav-item">
+                                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                                        <button id="logout" type="submit" class="nav-link btn logout login">Odjavi se</button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link btn login" asp-area="Identity" asp-page="/Account/Login">Prijavi se</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link btn register" asp-area="Identity" asp-page="/Account/Register">Napravi nalog</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
     </header>
-    <div class="container">
+    <div class="container full-height">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - StediiPobedi - <a asp-area="" asp-page="/Privacy">Privacy</a>
+    <footer class="footer text-center text-lg-start">
+        <div class="text-center text-light p-3">
+            &copy 2021 Copyright:
+            <a class="text-light" asp-area="" asp-page="/Index">Stedi i Pobedi</a>
         </div>
     </footer>
 
