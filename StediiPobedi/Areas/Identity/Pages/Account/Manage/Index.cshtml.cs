@@ -22,7 +22,6 @@ namespace StediiPobedi.Areas.Identity.Pages.Account.Manage
             _userManager = userManager;
             _signInManager = signInManager;
         }
-
         public string Username { get; set; }
 
         [BindProperty]
@@ -44,7 +43,7 @@ namespace StediiPobedi.Areas.Identity.Pages.Account.Manage
             [Display(Name = "Email")]
             public string Email { get; set; }
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Broj telefona")]
             public string PhoneNumber { get; set; }
             [Required]
             [DataType(DataType.Password)]

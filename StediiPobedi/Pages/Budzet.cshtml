@@ -1,10 +1,11 @@
 ﻿@page
 @model StediiPobedi.Pages.BudzetModel
 @{
+    ViewData["Title"] = "Budžet";
 }
 <link rel="stylesheet" href="~/css/Budzet.css">
 
-<h2 class="naslov">Pregled budzeta</h2>
+<h2 class="naslov">Pregled budžeta</h2>
 <form method="post">
     <div class="col-12 d-flex justify-content-center">
         <button type="button" class="btn btn-outline-success dodaj d-flex justify-content-center" id="DodajProizvodbtn" data-toggle="modal" data-target="#dodajBudzet">
@@ -36,29 +37,29 @@
                         <input type="text" id="aa_@a" class="form-control" asp-for="@Model.Budzeti[i].Id" hidden>
                         <td>
                             <button type="button" class="btn btn-outline-warning sacuvaj" data-toggle="modal" data-target="#a_@Model.Budzeti[i].Id"><ion-icon name="create-outline" style="vertical-align:-2px;"></ion-icon></button>
-                            <button type="submit" asp-route-idlok="@Model.Budzeti[i].Id" asp-page-handler="UkloniBudzet" class="btn btn-outline-danger sacuvaj"><ion-icon name="trash-outline" style="vertical-align:-2px;"></ion-icon></button>
+                            <button type="submit" asp-route-id="@Model.Budzeti[i].Id" asp-page-handler="UkloniBudzet" class="btn btn-outline-danger sacuvaj"><ion-icon name="trash-outline" style="vertical-align:-2px;"></ion-icon></button>
                         </td>
                     </tr>
                     <div class="modal fade" id="a_@Model.Budzeti[i].Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Izmeni budzet</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Izmeni budžet</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label asp-for="@Model.Budzeti[i].Opis">Unesite naziv/opis budzeta:</label>
+                                        <label asp-for="@Model.Budzeti[i].Opis">Unesite naziv/opis budžeta:</label>
                                         <input class="form-control" asp-for="@Model.Budzeti[i].Opis" />
                                     </div>
                                     <div class="form-group">
-                                        <label asp-for="@Model.Budzeti[i].Iznos">Unesite iznos budzeta:</label>
+                                        <label asp-for="@Model.Budzeti[i].Iznos">Unesite iznos budžeta:</label>
                                         <input class="form-control" asp-for="@Model.Budzeti[i].Iznos" />
                                     </div>
                                     <div class="form-group">
-                                        <label>Grupisite rashode za ovaj budzet:</label>
+                                        <label>Grupišite rashode za ovaj budžet:</label>
                                         @for (var j = 0; j < @Model.Budzeti[i].Rashodi.Count; j++)
                                         {
                                             var r = "Budzeti_" + i + "__Rashodi_" + j + "__Selektovan";
@@ -87,7 +88,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Poništi</button>
-                                    <button type="submit" asp-route-id="@Model.Budzeti[i].Id" asp-route-br="@i" asp-page-handler="IzmeniBudzet" class="btn btn-success">Izmeni budzet</button>
+                                    <button type="submit" asp-route-id="@Model.Budzeti[i].Id" asp-route-br="@i" asp-page-handler="IzmeniBudzet" class="btn btn-success">Izmeni budžet</button>
                                 </div>
                             </div>
                         </div>
@@ -103,22 +104,22 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Dodaj budzet</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Dodaj budžet</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label asp-for="@Model.Budzet.Opis">Unesite naziv/opis budzeta:</label>
+                        <label asp-for="@Model.Budzet.Opis">Unesite naziv/opis budžeta:</label>
                         <input class="form-control" asp-for="@Model.Budzet.Opis" />
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.Budzet.Iznos">Unesite iznos budzeta:</label>
+                        <label asp-for="@Model.Budzet.Iznos">Unesite iznos budžeta:</label>
                         <input class="form-control" asp-for="@Model.Budzet.Iznos" />
                     </div>
                     <div class="form-group">
-                        <label>Grupisite rashode za ovaj budzet:</label>
+                        <label>Grupišite rashode za ovaj budžet:</label>
                         @for (var i = 0; i < @Model.Rashodi.Count; i++)
                         {
                             var r = "Rashodi_" + i + "__Selektovan";
@@ -134,7 +135,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Poništi</button>
-                    <button type="submit" asp-page-handler="DodajBudzet" class="btn btn-success">Dodaj budzet</button>
+                    <button type="submit" asp-page-handler="DodajBudzet" class="btn btn-success">Dodaj budžet</button>
                 </div>
             </div>
         </div>

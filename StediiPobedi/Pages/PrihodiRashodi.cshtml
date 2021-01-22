@@ -1,12 +1,13 @@
 ﻿@page
 @model StediiPobedi.Pages.PrihodiRashodiModel
 @{
+    ViewData["Title"] = "Prihodi i Rashodi";
 }
 <link rel="stylesheet" href="~/css/PrihodiRashodi.css">
 
 
 <form method="post">
-    <h2 class="naslov">Vas bilans stanja</h2>
+    <h2 class="naslov">Vaš bilans stanja</h2>
     <div class="row">
         <div class="col-md-5">
             <button onclick="dodajLokaciju()" type="button" class="btn sacuvaj dodaj" value="CREATE" id="btnNoOfRec">Dodaj prihod <ion-icon name="add-circle-outline" style="font-size: 16px; vertical-align: -2px;"></ion-icon></button>
@@ -35,7 +36,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-outline-success sacuvaj dugme" id="Sacuvajbtn" asp-page-handler="Sacuvaj">Sacuvaj prihode</button>
+            <button type="submit" class="btn btn-outline-success sacuvaj dugme" id="Sacuvajbtn" asp-page-handler="Sacuvaj">Sačuvaj prihode</button>
         </div>
         <div class="col-md-2">
             <div class="vertical-line"></div>
@@ -71,7 +72,7 @@
                     </tbody>
                 </table>
             </div>
-            <button type="submit" class="btn btn-outline-success sacuvaj dugme" id="SacuvajRashodebtn" asp-page-handler="SacuvajRashode">Sacuvaj rashode</button>
+            <button type="submit" class="btn btn-outline-success sacuvaj dugme" id="SacuvajRashodebtn" asp-page-handler="SacuvajRashode">Sačuvaj rashode</button>
         </div>
     </div>
     <div class="row display">
@@ -91,8 +92,8 @@
 
 <script src="~/temp/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-    var choices = ["Racun - Struja", "Racun - Voda", "Racun - Telefon", "Racun - Ostalo", "Troskovi za prevoz",
-        "Troskovi putovanja", "Ostali troskovi", "Obuca/Odeca", "Hrana", "Hobi", "Auto", "Kupovina"];
+    var choices = ["Račun - Struja", "Račun - Voda", "Račun - Telefon", "Račun - Ostalo", "Troškovi za prevoz",
+        "Troškovi putovanja", "Ostali troškovi", "Obuća/Odeća", "Hrana", "Hobi", "Auto", "Kupovina"];
 
     function addInput(divName, idDiv) {
         var newDiv = document.createElement('select');
@@ -315,14 +316,14 @@
             labels: arr,
             datasets: [{
                 label: "Population (millions)",
-                backgroundColor: ["#5c52f5", "#876be0", "#3cba9f", "#f89060", "#ff6276"],
+                backgroundColor: ["#5c52f5", "#876be0", "#3cba9f", "#f89060", "#ff6276", "#ffc107", "#6c757d","#d66daf"],
                 data: arrIznos
             }]
         },
         options: {
             elements: {
                 center: {
-                    text: 'Prihodi ' + prihod + 'din',
+                    text: 'Prihodi ' + prihod + 'din.',
                     color: '#343a40', // Default is #000000
                     fontStyle: 'Arial', // Default is Arial
                     sidePadding: 20, // Default is 20 (as a percentage)
@@ -341,14 +342,14 @@
             labels: arrRas,
             datasets: [{
                 label: "Population (millions)",
-                backgroundColor: ["#5c52f5", "#876be0", "#3cba9f", "#f89060", "#ff6276"],
+                backgroundColor: ["#5c52f5", "#876be0", "#3cba9f", "#f89060", "#ff6276", "#ffc107", "#6c757d", "#d66daf"],
                 data: arrRasIznos
             }]
         },
         options: {
             elements: {
                 center: {
-                    text: 'Rashodi ' + rashod + 'din',
+                    text: 'Rashodi ' + rashod + 'din.',
                     color: '#343a40', // Default is #000000
                     fontStyle: 'Arial', // Default is Arial
                     sidePadding: 20, // Default is 20 (as a percentage)
@@ -373,7 +374,7 @@
         options: {
             elements: {
                 center: {
-                    text: 'Bilans stanja '+(prihod - rashod) + 'din',
+                    text: 'Bilans stanja '+(prihod - rashod) + 'din.',
                     color: '#343a40', // Default is #000000
                     fontStyle: 'Arial', // Default is Arial
                     sidePadding: 20, // Default is 20 (as a percentage)
